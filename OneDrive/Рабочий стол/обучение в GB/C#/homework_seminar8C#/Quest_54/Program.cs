@@ -57,7 +57,7 @@ int[,] DecreasingArrayElements(int[,] array)
           int repeat = 0;
           for (int m = 0; m < array.GetLength(1); m++)
           {
-            if (temp > array[i, m]) count++;
+            if (temp < array[i, m]) count++;
             if (temp == array[i, m]) repeat++;
           }
           newarray[i, count] = temp;
