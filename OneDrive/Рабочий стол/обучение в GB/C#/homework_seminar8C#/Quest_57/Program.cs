@@ -13,7 +13,17 @@ PrintArray(dualmassiv);
 
 Console.WriteLine();
 
-SpecPrintArray(Total(dualmassiv));
+int[] rowArray = GetRowArray(dualmassiv);
+
+Console.WriteLine($"[{String.Join(",", rowArray)}]");
+
+int[] sortedArray = SortArray(rowArray);
+
+Console.WriteLine();
+
+Console.WriteLine($"[{String.Join(",", sortedArray)}]");
+
+PrintSortedArray (sortedArray);
 
 // ----------------Заполнение массива
 int[,] GetArray(int m, int n, int minValue, int maxValue)
@@ -43,49 +53,57 @@ void PrintArray(int[,] array)
     }
 }
 
-// Вывод массива с указателями
+// Преобразование двумерного массива в одномерный
 
-void SpecPrintArray(int[,] array)
+int [] GetRowArray (int[,] array)
 {
-  int j = 0;
-  for (int i = 0; i < array.GetLength(0); i++)
-  {
-    Console.Write($"{array[i, j]} повторяется {array[i, j + 1]} раз");
-    Console.WriteLine();
-  }
-}
-
-// Счетчик
-int[,] Total(int[,] array)
-{
-  int[,] newarray = new int[array.GetLength(0) * array.GetLength(1), 2];
+  int[] result = new int[array.GetLength(0) * array.GetLength(1)];
+  int index = 0;
   for (int i = 0; i < array.GetLength(0); i++)
     {
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-          int temp = array[i, j];
-          int count = 1;
-          for (int m = 0; m < array.GetLength(0); m++)
-          {
-            for (int l = 0; l < array.GetLength(1); l++)
-            {
-              if (temp == array[m, l]) count++;
-            }
-          }
-          newarray[i * array.GetLength(1) + j, 0] = temp;
-          newarray[i * array.GetLength(1) + j, 1] = count;
-        }
+      for (int j = 0; j < array.GetLength(1); j++)
+      {
+        result[index] = array[i, j];
+        index++;
+      }
     }
-  return newarray;
+  return result;
 }
 
-int[,] Totalizer(int[,] array)
+// Сортировка
+
+int[] SortArray (int[] array)
 {
-  znach[0, 0] = array[0, 0];
-  for (int i = 1; i < array.GetLength(0); i++)
+  for (int i = 0; i < array.Length; i++)
+    {
+      for (int j = i + 1; j < array.Length; j++)
+      {
+        if (array[i] > array[j])
+          {
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+          }
+      }
+    }
+  return array;
+}
+
+// Вывод счетчика
+
+void PrintSortedArray (int[] array)
+{
+  int el = array[0];
+  int count = 1;
+  for (int i = 1; i < array.Length; i++)
   {
-    for (int j = 1; j < array.GetLength(0); j++)
-    if (array[i, 0] == array[j, 0]) continue;
-    
+    if (array[i] != el)
+    {
+      Console.WriteLine($"Элемент {el} встречается {count} раз");
+      el = array[i];
+      count = 1;
+    }
+    else count++;
   }
+  Console.WriteLine($"Элемент {el} встречается {count} раз");
 }
